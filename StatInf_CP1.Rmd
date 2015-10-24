@@ -43,7 +43,7 @@ sd_sample_mean <- sd(data$means); var_sample_mean <- var(data$means) #obs. s and
 #Sample Mean and Variance vs. Theoretical Mean and Variance  
   The exponential distribution has a theoretical mean equal to the inverse of rate parameter, $\frac{1}{\lambda}=5$. The sample mean $bar(x)$, is an estimate of the population mean. The standard deviation of an exponential distribution is also $s = \frac{1}{\lambda} = 5$. Since the variance is $\sigma=s^2$, the variance of an exponential distribution with $\lambda = 0.2$ would be $5^2 = 25$. However, in this case we wish to calulcate the variance of the distribution of the sample means. Therefore: 
   $$s = \frac{1}{\lambda * \sqrt{n}} = \frac{5}{\sqrt{40}} =  0.79 \text{ and } \sigma = s^2 = 0.625$$  
-  These theoretical values are compared to the values from the simulated sample means in _Figure 1_. Th left panel shows a histogram of the distribution of sample means. Two lines mark the location of the center of the distribution(blue), and the theoretical center (red).  
+  These theoretical values are compared to the values from the simulated sample means in _Figure 1_. The left panel shows a histogram of the distribution of sample means. Two lines mark the location of the center of the distribution(blue), and the theoretical center (red).  
 ```{r fig1, dependson=c("setup", "sims"), echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Charecteristics of the Distibution"}
 #Table 1
 labels <- c("Mean", "SD", "Variance") 
@@ -90,7 +90,7 @@ grid.arrange(p3,p4, ncol=2)
   4. We began with a population of exponentals that were not normally distributed. Then, we took the means of many samples of size $n$. The distribution of these sample means _are normally distributed_. This is the main prediction of the Central Limit Theorem. 
   
 
-_Note:_ Code for graphs not included in this report due to space limits, but markdown file can be found [here](https://github.com/anandi42/Stat_Inf/blob/master/StatInf_courseProj1.Rmd).
+_Note:_ Code for graphs not included in this report due to space limits, but markdown file can be found [here](https://github.com/anandi42/Stat_Inf/blob/master/StatInf_CP1.Rmd).
 
 
 
