@@ -1,0 +1,319 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={AKN},
+            pdftitle={Exploratory Data Analysis of Tooth Growth in Gerbils},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Exploratory Data Analysis of Tooth Growth in Gerbils}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+\subtitle{Hypothesis Testing and Confidence Intervals}
+  \author{AKN}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \date{}
+  \predate{}\postdate{}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+\section{Overview}\label{overview}
+
+In this report, we use \texttt{ToothGrowth}, a dataset in R, which
+contains data from an experiment measuring the length of guinea pig
+teeth, or \emph{odontoblasts}, at three dose levels of Vitamin C, either
+through Orange Juice or with just ascorbic acid. We will perform
+exploratory data analysis, followed by hypothesis testing and calculate
+confidence intervals. Finally, we will show that the tooth growth does
+seem to increase with increasing dose of Vitamin C, but we cannot
+definitively conclude this due to low power.
+
+\section{The Data and Exploratory
+Analyses}\label{the-data-and-exploratory-analyses}
+
+First, we load the ToothGrowth data. The data contains 60 observations
+in 3 dose levels of 2 supplement types. First, we examine how the
+response variable, tooth length, varies by dose level and supplement
+type. We can do this with a simple boxplot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data1 <-}\StringTok{ }\NormalTok{ToothGrowth}
+\NormalTok{data1$dose <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(data1$dose)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{CourseProj_part2_files/figure-latex/plots-1.pdf}
+\caption{Data Summary}
+\end{figure}
+
+Visually, it looks like Tooth Length is longer at higher dose levels,
+regardless of the supplement type. However, there may be some effect of
+supplement type as well. The experimental design of this study
+essentially has two levels. So, we can group the data in few ways, only
+by supp, or only by dose. We can take a look at the subgroup means and
+variances before we get to hypothesis testing.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrr}
+  \hline
+Group & Means & Variances \\ 
+  \hline
+OJ & 20.663 & 43.633 \\ 
+  VC & 16.963 & 68.327 \\ 
+  0.5 & 10.605 & 10.605 \\ 
+  1 & 19.735 & 19.735 \\ 
+  2 & 26.100 & 26.100 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+\section{Confidence Intervals and Hypothesis
+Testing}\label{confidence-intervals-and-hypothesis-testing}
+
+Let's look at the supplement type first. First we compare the mean and
+variance at each supplement type. Referring to our tables of means and
+variances above, we see that the variances are \texttt{43.6} and
+\texttt{68.32}. So to be safe, we set \texttt{var.equal = FALSE}, in our
+t-test. We know from the description of the dataset that the groups are
+not paired.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test1 <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(len ~}\StringTok{ }\NormalTok{supp,}\DataTypeTok{data=}\NormalTok{data1, }\DataTypeTok{var.equal =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{paired =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{test1$conf.int}
+\NormalTok{test1$p.value}
+\NormalTok{test1$estimate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.1710156  7.5710156
+## attr(,"conf.level")
+## [1] 0.95
+## [1] 0.06063451
+## mean in group OJ mean in group VC 
+##         20.66333         16.96333
+\end{verbatim}
+
+Although the p-value is \texttt{0.06}, the confidence interval contains
+\texttt{0}. Because the 95\% CI includes 0, we cannot reject the null
+hypothesis that the difference in means is 0. Next, we will test the
+group differences by dose level, using \texttt{t.test} as before. Again,
+to be safe, based on the calculated group variances, we set
+\texttt{var.equal=FALSE}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dlong <-}\StringTok{ }\KeywordTok{melt}\NormalTok{(data1, }\DataTypeTok{id.vars =} \KeywordTok{c}\NormalTok{(}\StringTok{"dose"}\NormalTok{), }\DataTypeTok{measure.vars=}\StringTok{"len"}\NormalTok{)}
+\NormalTok{g1 <-}\StringTok{ }\NormalTok{dlong[dlong$dose ==}\StringTok{ "0.5"}\NormalTok{,]$value}
+\NormalTok{g2 <-}\StringTok{ }\NormalTok{dlong[dlong$dose ==}\StringTok{ "1"}\NormalTok{,]$value}
+\NormalTok{g3 <-}\StringTok{ }\NormalTok{dlong[dlong$dose ==}\StringTok{ "2"}\NormalTok{,]$value}
+\NormalTok{t1 <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(g2, g1,}\DataTypeTok{var.equal =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{paired =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\NormalTok{t2 <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(g3, g1,}\DataTypeTok{var.equal =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{paired =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\NormalTok{t3 <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(g3, g2,}\DataTypeTok{var.equal =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{paired =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\NormalTok{conf_int <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(t1$conf, t2$conf, t3$conf)}
+\NormalTok{p_vals <-}\StringTok{ }\KeywordTok{format.pval}\NormalTok{(}\KeywordTok{c}\NormalTok{(t1$p.value, t2$p.value, t3$p.value), }\DataTypeTok{eps =} \NormalTok{.}\DecValTok{001}\NormalTok{, }\DataTypeTok{digits=}\DecValTok{3}\NormalTok{)}
+\NormalTok{t_stat <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(t1$statistic, t2$statistic,t3$statistic)}
+\NormalTok{labels <-}\KeywordTok{c}\NormalTok{(}\StringTok{"1mg vs. 0.5mg"}\NormalTok{, }\StringTok{"2mg vs. 0.5mg"}\NormalTok{, }\StringTok{"2mg vs 1mg"}\NormalTok{)}
+\NormalTok{results1 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(labels, conf_int, p_vals, t_stat)}
+\KeywordTok{colnames}\NormalTok{(results1) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Comparison"}\NormalTok{, }\StringTok{"95% CI"}\NormalTok{, }\StringTok{"95% CI"}\NormalTok{, }\StringTok{"p"}\NormalTok{, }\StringTok{"t"}\NormalTok{)}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{xtable}\NormalTok{(results1, }\DataTypeTok{digits =} \DecValTok{3}\NormalTok{), }\DataTypeTok{comment=}\OtherTok{FALSE}\NormalTok{,}\DataTypeTok{include.rownames=}\OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrlr}
+  \hline
+Comparison & 95\% CI & 95\% CI & p & t \\ 
+  \hline
+1mg vs. 0.5mg & 6.276 & 11.984 & $<$0.001 & 6.477 \\ 
+  2mg vs. 0.5mg & 12.834 & 18.156 & $<$0.001 & 11.799 \\ 
+  2mg vs 1mg & 3.734 & 8.996 & $<$0.001 & 4.900 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+We have now done 4 successive t-tests on the data, comparing various
+combinations of groups. But what about power? We have estimates of the
+`true' mean difference and its variation from our data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{meandiff <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{mean}\NormalTok{(g3)-}\KeywordTok{mean}\NormalTok{(g2), }\KeywordTok{mean}\NormalTok{(g3)-}\KeywordTok{mean}\NormalTok{(g1), }\KeywordTok{mean}\NormalTok{(g2-g1))}
+\NormalTok{vars1 <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{var}\NormalTok{(g1), }\KeywordTok{var}\NormalTok{(g2), }\KeywordTok{var}\NormalTok{(g3))}
+\NormalTok{sd1 <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(vars1)}
+\KeywordTok{rbind}\NormalTok{(meandiff, sd1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              [,1]      [,2]    [,3]
+## meandiff 6.365000 15.495000 9.13000
+## sd1      4.499763  4.415436 3.77415
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{n=}\DecValTok{10}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
+             \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\FloatTok{4.5}\NormalTok{, }\DataTypeTok{delta=}\FloatTok{6.4}\NormalTok{)$power}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.6218381
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{power =} \FloatTok{0.95}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
+             \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\FloatTok{4.5}\NormalTok{, }\DataTypeTok{delta=}\FloatTok{6.4}\NormalTok{)$n}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 19.35302
+\end{verbatim}
+
+At an \(n\) of 10, and \(\alpha\) of 0.01 we have 62\% power to
+correctly reject a null hypothesis assuming a true mean difference of
+\textasciitilde{}6.4 (smallest diff observed). To achieve power of 95\%,
+at least 19 gerbils per group are needed.
+
+\section{Conclusions}\label{conclusions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  When comparing the means at each dose level (0.5, 1 and 2 mg), all 3
+  combinations of comaprisons produce confidence intervals that do not
+  contain 0, t \textgreater{} 1, and p \textless{} 0.001.
+\item
+  We infer from this data that while the \emph{type} of Vitamin C
+  supplement \emph{does not} significantly affect tooth growth, higher
+  \emph{doses} of Vitamin C \emph{may have an effect on tooth growth}.
+\item
+  We may be underpowered, as we are at \textless{}75\% power to
+  correctly reject a null hypothesis when the true mean difference is
+  equal to the smallest difference we observed.
+\end{enumerate}
+
+\section{Assumptions}\label{assumptions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  We assumed that the variances across the group (either by dose or
+  supplement) was not equal.
+\item
+  We assumed that the 60 gerbils used for this data were randomy
+  assigned to each of the dose/supplement groups.
+\item
+  We assumed that the 60 gerbils are representative of the entire
+  population of gerbils.
+\item
+  Finally, we assumed that the response variable is not itself affected
+  by other variables that we have not included in our statistical
+  inference.
+\end{enumerate}
+
+\end{document}
