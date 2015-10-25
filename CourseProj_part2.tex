@@ -112,14 +112,15 @@
 
 \section{Overview}\label{overview}
 
-In this report, we use \texttt{ToothGrowth}, a dataset in R, which
-contains data from an experiment measuring the length of guinea pig
-teeth, or \emph{odontoblasts}, at three dose levels of Vitamin C, either
-through Orange Juice or with just ascorbic acid. We will perform
-exploratory data analysis, followed by hypothesis testing and calculate
-confidence intervals. Finally, we will show that the tooth growth does
-seem to increase with increasing dose of Vitamin C, but we may have low
-power to correctly reject the null hypothesis.
+In this report, we use \texttt{ToothGrowth}, a
+\href{https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/ToothGrowth.html}{dataset
+in R}, which contains data from an experiment measuring the length of
+guinea pig teeth, or \emph{odontoblasts}, at three dose levels of
+Vitamin C, either through Orange Juice or with just ascorbic acid. We
+will perform exploratory data analysis, followed by hypothesis testing
+and calculate confidence intervals. Finally, we will show that the tooth
+growth may increase with increasing dose of Vitamin C, but we may have
+low power to correctly reject the null hypothesis.
 
 \section{The Data and Exploratory
 Analyses}\label{the-data-and-exploratory-analyses}
@@ -272,10 +273,12 @@ combinations of groups. But what about power? We have estimates of the
 ## [1] 19.35302
 \end{verbatim}
 
-At an \(n\) of 10, and \(\alpha\) of 0.01 we have 62\% power to
-correctly reject a null hypothesis assuming a true mean difference of
-\textasciitilde{}6.4 (smallest diff observed). To achieve power of 95\%,
-at least 19 gerbils per group are needed.
+At an \(n\) of 10, and \(\alpha=0.01\) we have 62\% power to correctly
+reject a null hypothesis assuming a true mean difference of
+\textasciitilde{}6.4 (smallest diff observed). Based on a power
+calculation at power of 95\% and \(\alpha = 0.01\), we may need up to 20
+gerbils per group to correctly reject the null hypothesis when
+\(\Delta = 6.4\).
 
 \section{Conclusions}\label{conclusions}
 

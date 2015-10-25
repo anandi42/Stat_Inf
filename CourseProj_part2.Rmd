@@ -12,7 +12,7 @@ output:
   html_document: default
 ---
 #Overview
-In this report, we use `ToothGrowth`, a dataset in R, which contains data from an experiment measuring the length of guinea pig teeth, or _odontoblasts_, at three dose levels of Vitamin C, either through Orange Juice or with just ascorbic acid. We will perform exploratory data analysis, followed by hypothesis testing and calculate confidence intervals. Finally, we will show that the tooth growth does seem to increase with increasing dose of Vitamin C, but we may have low power to correctly reject the null hypothesis. 
+In this report, we use `ToothGrowth`, a [dataset in R](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/ToothGrowth.html), which contains data from an experiment measuring the length of guinea pig teeth, or _odontoblasts_, at three dose levels of Vitamin C, either through Orange Juice or with just ascorbic acid. We will perform exploratory data analysis, followed by hypothesis testing and calculate confidence intervals. Finally, we will show that the tooth growth may increase with increasing dose of Vitamin C, but we may have low power to correctly reject the null hypothesis. 
 
 ```{r setup, cache=TRUE, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -91,7 +91,7 @@ power.t.test(n=10, type = "two.sample", alternative = "two.sided",
 power.t.test(power = 0.95, type = "two.sample", alternative = "two.sided", 
              sig.level = 0.01, sd=4.5, delta=6.4)$n
 ```  
-  At an $n$ of 10, and $\alpha$ of 0.01 we have 62% power to correctly reject a null hypothesis assuming a true mean difference of ~6.4 (smallest diff observed). To achieve power of 95%, at least 19 gerbils per group are needed. 
+  At an $n$ of 10, and $\alpha=0.01$ we have 62% power to correctly reject a null hypothesis assuming a true mean difference of ~6.4 (smallest diff observed). Based on a power calculation at power of 95% and $\alpha = 0.01$, we may need up to 20 gerbils per group to correctly reject the null hypothesis when $\Delta = 6.4$. 
   
 #Conclusions
   1. When comparing the means at each dose level (0.5, 1 and 2 mg), all 3 combinations of comaprisons produce confidence intervals that do not contain 0, t > 1, and p < 0.001.
