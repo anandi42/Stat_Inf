@@ -12,7 +12,7 @@ output:
   html_document: default
 ---
 #Overview
-In this report, we use `ToothGrowth`, a dataset in R, which contains data from an experiment measuring the length of guinea pig teeth, or _odontoblasts_, at three dose levels of Vitamin C, either through Orange Juice or with just ascorbic acid. We will perform exploratory data analysis, followed by hypothesis testing and calculate confidence intervals. Finally, we will show that the tooth growth does seem to increase with increasing dose of Vitamin C, but we cannot definitively conclude this due to low power. 
+In this report, we use `ToothGrowth`, a dataset in R, which contains data from an experiment measuring the length of guinea pig teeth, or _odontoblasts_, at three dose levels of Vitamin C, either through Orange Juice or with just ascorbic acid. We will perform exploratory data analysis, followed by hypothesis testing and calculate confidence intervals. Finally, we will show that the tooth growth does seem to increase with increasing dose of Vitamin C, but we may have low power to correctly reject the null hypothesis. 
 
 ```{r setup, cache=TRUE, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -103,3 +103,5 @@ power.t.test(power = 0.95, type = "two.sample", alternative = "two.sided",
   2. We assumed that the 60 gerbils used for this data were randomy assigned to each of the dose/supplement groups.
   3. We assumed that the 60 gerbils are representative of the entire population of gerbils. 
   4. Finally, we assumed that the response variable is not itself affected by other variables that we have not included in our statistical inference. 
+  
+*Note: Code for graph was not show here because of space, but markdown files available [here](https://github.com/anandi42/Stat_Inf/blob/master/CourseProj_part2.Rmd).*
