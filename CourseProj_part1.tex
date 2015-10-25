@@ -155,7 +155,7 @@ The exponential distribution has a theoretical mean equal to the inverse
 of rate parameter, \(\frac{1}{\lambda}=5\). We can compare this to the
 mean of the sample averages, \(\bar X_n\). To calculate other parameters
 of the distribution of \(\bar X_n\), we can use the CLT which states
-that \(\bar X\) is approxiametly \(N(\mu, \sigma^2 / n)\), and that:
+that \(\bar X\) is approximately \(N(\mu, \sigma^2 / n)\), and that:
 
 \[ \text{sample variance} = \frac{\sigma^2}{n} = (\frac{1}{\lambda})^2 * 1/n = \frac{25}{40} =  0.625    
 \text{  and sample sd} = \frac{\sigma}{\sqrt n} = \frac{5}{\sqrt 40} = 0.791 \]
@@ -209,9 +209,10 @@ CLT, the simulated sample mean will have a normal distribution, despite
 the shape of the underlying distribution. If one takes enough samples,
 the mean of those samples will be \textbf{normally distributed}.
 \emph{Figure 2} shows density plots, with an overlay of the normal
-distribution centered at \(\mu\). In this plot, we can see that
-\textbf{while the distribution of a large set of exponentials is not
-normal, the distribution of the sample average of exponentials is
+distribution centered at \(\mu\) (showed by the red curve and red line
+for the mean). In this plot, we can see that \textbf{while the
+distribution of a large set of exponentials is not normal, the
+distribution of the sample average of exponentials is approximately
 normally distributed}. The right panel provides another way to confirm
 the normality of the distribution of means: the quantile-quantile plot,
 or Q-Q plot.
@@ -249,6 +250,6 @@ or Q-Q plot.
 
 \emph{Note:} Code for graphs not included in this report due to space
 limits, but markdown file can be found
-\href{https://github.com/anandi42/Stat_Inf/blob/master/StatInf_CP1.Rmd}{here}.
+\href{https://github.com/anandi42/Stat_Inf/blob/master/CourseProj_part1.Rmd}{here}.
 
 \end{document}

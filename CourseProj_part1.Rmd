@@ -4,8 +4,8 @@ subtitle: "Simulation of the sample average of a set of exponentials"
 author: "AKN"
 output:
   pdf_document:
-    fig_height: 3.5
-    fig_width: 8
+    fig_height: 3.25
+    fig_width: 8.75
     fig_caption: yes
     keep_tex: yes
     latex_engine: xelatex
@@ -41,7 +41,7 @@ data <- data.frame(exp = a, means = b)
 ```  
 
 #Using CLT to calculate mean and variance
-  The exponential distribution has a theoretical mean equal to the inverse of rate parameter, $\frac{1}{\lambda}=5$. We can compare this to the mean of the sample averages, $\bar X_n$. To calculate other parameters of the distribution of $\bar X_n$, we can use the CLT which states that $\bar X$ is approxiametly $N(\mu, \sigma^2 / n)$, and that:  
+  The exponential distribution has a theoretical mean equal to the inverse of rate parameter, $\frac{1}{\lambda}=5$. We can compare this to the mean of the sample averages, $\bar X_n$. To calculate other parameters of the distribution of $\bar X_n$, we can use the CLT which states that $\bar X$ is approximately $N(\mu, \sigma^2 / n)$, and that:  
   
 $$ \text{sample variance} = \frac{\sigma^2}{n} = (\frac{1}{\lambda})^2 * 1/n = \frac{25}{40} =  0.625    
 \text{  and sample sd} = \frac{\sigma}{\sqrt n} = \frac{5}{\sqrt 40} = 0.791 $$
@@ -64,20 +64,20 @@ print(xtable(t1, digits=4, caption = "Sample Parameters vs. Theorized Parameters
 ```
   
 #Distributions  
-  We will use our simulated data to test the central limit theorem. By the CLT, the simulated sample mean will have a normal distribution, despite the shape of the underlying distribution. If one takes enough samples, the mean of those samples will be **normally distributed**. _Figure 2_ shows density plots, with an overlay of the normal distribution centered at $\mu$. In this plot, we can see that **while the distribution of a large set of exponentials is not normal, the distribution of the sample average of exponentials is normally distributed**. The right panel provides another way to confirm the normality of the distribution of means: the quantile-quantile plot, or Q-Q plot. 
+  We will use our simulated data to test the central limit theorem. By the CLT, the simulated sample mean will have a normal distribution, despite the shape of the underlying distribution. If one takes enough samples, the mean of those samples will be **normally distributed**. _Figure 2_ shows density plots, with an overlay of the normal distribution centered at $\mu$ (showed by the red curve and red line for the mean). In this plot, we can see that **while the distribution of a large set of exponentials is not normal, the distribution of the sample average of exponentials is approximately normally distributed**. The right panel provides another way to confirm the normality of the distribution of means: the quantile-quantile plot, or Q-Q plot. 
 
 ```{r fig2, dependson=c("setup","sims"), echo=FALSE, warning=FALSE, cache=TRUE, fig.cap="Demonstrating that the Distribution of Sample Means is Normal"}
 
 data2 <- melt(data, value.name = "Value", measure.vars = c("exp", "means"))
 levels(data2$variable) <- c("Exponentials", "Sample Means")
 
-p3 <- ggplot(data2, aes(x=Value)) + geom_histogram(aes(y = ..density..), binwidth=0.5, fill="white", color="blue") + facet_grid(.~variable) + stat_function(fun = dnorm, args = list(mean=1/lambda, sd = s), n = reps, color="red", lty=5, lwd=1.5) +  theme_bw() + labs(title = "A population of random exponentials\nvs. Sample means of random exponentials") + theme(plot.title = element_text(size = 10), axis.title.x=element_text(size=10), axis.title.y=element_text(size=10)) + coord_cartesian(xlim=c(0,10)) 
+p3 <- ggplot(data2, aes(x=Value)) + geom_histogram(aes(y = ..density..), binwidth=0.5, fill="white", color="blue") + geom_vline(xintercept = mu, color="red") + facet_grid(.~variable) + stat_function(fun = dnorm, args = list(mean=1/lambda, sd = s), n = reps, color="red", lty=5, lwd=1.5) +  theme_bw() + labs(title = "A population of random exponentials\nvs. Sample means of random exponentials") + theme(plot.title = element_text(size = 10), axis.title.x=element_text(size=10), axis.title.y=element_text(size=10)) + coord_cartesian(xlim=c(0,10)) 
 
 ##Q-Q plot
 p4 <- ggplot(data, aes(sample=b)) + stat_qq(shape=1, color = "blue") + geom_abline(intercept=mu, slope=s, color="red") + labs(title="Q-Q plot") + theme_bw() + theme(plot.title = element_text(size = 12), axis.title.x=element_text(size=10), axis.title.y=element_text(size=10))
 
 #combine
-grid.arrange(p3,p4, ncol=2, widths=c(1.5,1))
+grid.arrange(p3,p4, ncol=2, widths=c(2,1))
 ```  
 
 \pagebreak 
@@ -88,7 +88,7 @@ grid.arrange(p3,p4, ncol=2, widths=c(1.5,1))
   3. The 95% CI of the distribution of sample means, `r round(s95CI, digits=3)`, contains $\mu$, and lines up with the theoretical interval `r t95CI`.  
   4. We began with a population of exponentals that were not normally distributed. Then, we took the means of many samples of size $n$. The distribution of these sample means **are normally distributed**. This is the main prediction of the Central Limit Theorem. 
   
-_Note:_ Code for graphs not included in this report due to space limits, but markdown file can be found [here](https://github.com/anandi42/Stat_Inf/blob/master/StatInf_CP1.Rmd).
+_Note:_ Code for graphs not included in this report due to space limits, but markdown file can be found [here](https://github.com/anandi42/Stat_Inf/blob/master/CourseProj_part1.Rmd).
 
 
 ```{r cleanup, dependson=c("setup", "sims"), echo=FALSE, warning=FALSE}
