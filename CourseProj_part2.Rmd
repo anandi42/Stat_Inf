@@ -12,7 +12,7 @@ output:
   html_document: default
 ---
 #Overview
-In this report, we use `ToothGrowth`, a [dataset in R](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/ToothGrowth.html), which contains data from an experiment measuring the length of guinea pig teeth, or _odontoblasts_, at three dose levels of Vitamin C, either through Orange Juice or with just ascorbic acid. We will perform exploratory data analysis, followed by hypothesis testing and calculate confidence intervals. Finally, we will show that the tooth growth may increase with increasing dose of Vitamin C, but we may have low power to correctly reject the null hypothesis. 
+In this report, we use `ToothGrowth`, a [dataset in R](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/ToothGrowth.html), which contains data from an experiment measuring the length of guinea pig teeth, or _odontoblasts_, at three dose levels of Vitamin C, either through Orange Juice or with just ascorbic acid. We will perform exploratory data analysis, followed by hypothesis testing and calculate confidence intervals. Finally, we will show that the tooth growth may increase with increasing dose of Vitamin C, although the type of supplement does not seem to matter. 
 
 ```{r setup, cache=TRUE, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
 library(ggplot2)
@@ -21,6 +21,7 @@ library(knitr)
 library(dplyr)
 library(gridExtra)
 library(xtable)
+rm(list=ls())
 ```
 
 #The Data and Exploratory Analyses
@@ -45,8 +46,8 @@ print(p1)
 ```{r table, dependson=c(1,2), cache=TRUE, echo=FALSE, results='asis'}
 datasupp <- group_by(data1, supp) %>% summarise(mean=mean(len), var=var(len), count=sum(!is.na(len)))
 datadose <- group_by(data1, dose) %>% summarise(mean=mean(len), var=var(len), count=sum(!is.na(len)))
-t1 <- data.frame( Group=c(levels(datasupp$supp), levels(datadose$dose)), Means=c(datasupp$mean[1:2], datadose$mean[1:3]), Variances=c(datasupp$var[1:2], datadose$mean[1:3]), Counts = c(datasupp$count[1:2], datadose$count[1:3]))
-print(xtable(t1, digits = 3), comment=FALSE,include.rownames=FALSE)
+table1 <- data.frame( Group=c(levels(datasupp$supp), levels(datadose$dose)), Means=c(datasupp$mean[1:2], datadose$mean[1:3]), Variances=c(datasupp$var[1:2], datadose$mean[1:3]), Counts = c(datasupp$count[1:2], datadose$count[1:3]))
+print(xtable(table1, digits = 3), comment=FALSE,include.rownames=FALSE)
 ```  
 
 #Confidence Intervals and Hypothesis Testing  
@@ -86,22 +87,21 @@ meandiff <- c(mean(g3)-mean(g2), mean(g3)-mean(g1), mean(g2-g1))
 vars1 <- c(var(g1), var(g2), var(g3))
 sd1 <- sqrt(vars1)
 rbind(meandiff, sd1)
-power.t.test(n=10, type = "two.sample", alternative = "two.sided", 
+power.t.test(n=20, type = "two.sample", alternative = "two.sided", 
              sig.level = 0.01, sd=4.5, delta=6.4)$power
-power.t.test(power = 0.95, type = "two.sample", alternative = "two.sided", 
-             sig.level = 0.01, sd=4.5, delta=6.4)$n
 ```  
-  At an $n$ of 10, and $\alpha=0.01$ we have 62% power to correctly reject a null hypothesis assuming a true mean difference of ~6.4 (smallest diff observed). Based on a power calculation at power of 95% and $\alpha = 0.01$, we may need up to 20 gerbils per group to correctly reject the null hypothesis when $\Delta = 6.4$. 
+  At an $n$ of 20/group, and $\alpha=0.01$ we have 95% power to correctly reject a null hypothesis assuming a true mean difference of ~6.4 (smallest diff observed). Therefore, we can say with some confidence that even with the smallest group difference, the differences between dose levels is significantly different. From this, we may infer that dose level does have an effect on tooth growth. However, the previous t-test showed that the type of supplement does not have a net effect. 
   
 #Conclusions
   1. When comparing the means at each dose level (0.5, 1 and 2 mg), all 3 combinations of comaprisons produce confidence intervals that do not contain 0, t > 1, and p < 0.001.
-  2. We infer from this data that while the *type* of Vitamin C supplement *does not* significantly affect tooth growth, higher *doses* of Vitamin C *may have an effect on tooth growth*.
-  3. We may be underpowered, as we are at <75% power to correctly reject a null hypothesis when the true mean difference is equal to the smallest difference we observed.
+  2. We infer from this data that while the *type* of Vitamin C supplement *does not* significantly affect tooth growth, higher *doses* of Vitamin C *has an effect on tooth growth*.
+  3. We have 95% power to correctly reject the null hypothesis at the smallest group difference observed ($\Delta = 6.4$)
     
 #Assumptions  
   1. We assumed that the variances across the group (either by dose or supplement) was not equal. 
   2. We assumed that the 60 gerbils used for this data were randomy assigned to each of the dose/supplement groups.
   3. We assumed that the 60 gerbils are representative of the entire population of gerbils. 
-  4. Finally, we assumed that the response variable is not itself affected by other variables that we have not included in our statistical inference. 
+  4. We assumed that the factors dose and supplement type were independent of each other. However, if they are related, we would need methods outside of hypothesis testing and confidence interval (perhaps regression?)
+  4. Finally, we assumed that the response variable is not itself affected by other variables that we have not included in our statistical inference.
   
 *Note: Code for graph was not show here because of space, but markdown files available [here](https://github.com/anandi42/Stat_Inf/blob/master/CourseProj_part2.Rmd).*

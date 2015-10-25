@@ -119,8 +119,8 @@ guinea pig teeth, or \emph{odontoblasts}, at three dose levels of
 Vitamin C, either through Orange Juice or with just ascorbic acid. We
 will perform exploratory data analysis, followed by hypothesis testing
 and calculate confidence intervals. Finally, we will show that the tooth
-growth may increase with increasing dose of Vitamin C, but we may have
-low power to correctly reject the null hypothesis.
+growth may increase with increasing dose of Vitamin C, although the type
+of supplement does not seem to matter.
 
 \section{The Data and Exploratory
 Analyses}\label{the-data-and-exploratory-analyses}
@@ -253,32 +253,23 @@ combinations of groups. But what about power? We have estimates of the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{n=}\DecValTok{10}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
+\KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{n=}\DecValTok{20}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
              \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\FloatTok{4.5}\NormalTok{, }\DataTypeTok{delta=}\FloatTok{6.4}\NormalTok{)$power}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.6218381
+## [1] 0.957448
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{power =} \FloatTok{0.95}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
-             \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\FloatTok{4.5}\NormalTok{, }\DataTypeTok{delta=}\FloatTok{6.4}\NormalTok{)$n}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 19.35302
-\end{verbatim}
-
-At an \(n\) of 10, and \(\alpha=0.01\) we have 62\% power to correctly
-reject a null hypothesis assuming a true mean difference of
-\textasciitilde{}6.4 (smallest diff observed). Based on a power
-calculation at power of 95\% and \(\alpha = 0.01\), we may need up to 20
-gerbils per group to correctly reject the null hypothesis when
-\(\Delta = 6.4\).
+At an \(n\) of 20/group, and \(\alpha=0.01\) we have 95\% power to
+correctly reject a null hypothesis assuming a true mean difference of
+\textasciitilde{}6.4 (smallest diff observed). Therefore, we can say
+with some confidence that even with the smallest group difference, the
+differences between dose levels is significantly different. From this,
+we may infer that dose level does have an effect on tooth growth.
+However, the previous t-test showed that the type of supplement does not
+have a net effect.
 
 \section{Conclusions}\label{conclusions}
 
@@ -292,11 +283,10 @@ gerbils per group to correctly reject the null hypothesis when
 \item
   We infer from this data that while the \emph{type} of Vitamin C
   supplement \emph{does not} significantly affect tooth growth, higher
-  \emph{doses} of Vitamin C \emph{may have an effect on tooth growth}.
+  \emph{doses} of Vitamin C \emph{has an effect on tooth growth}.
 \item
-  We may be underpowered, as we are at \textless{}75\% power to
-  correctly reject a null hypothesis when the true mean difference is
-  equal to the smallest difference we observed.
+  We have 95\% power to correctly reject the null hypothesis at the
+  smallest group difference observed (\(\Delta = 6.4\))
 \end{enumerate}
 
 \section{Assumptions}\label{assumptions}
@@ -313,6 +303,11 @@ gerbils per group to correctly reject the null hypothesis when
 \item
   We assumed that the 60 gerbils are representative of the entire
   population of gerbils.
+\item
+  We assumed that the factors dose and supplement type were independent
+  of each other. However, if they are related, we would need methods
+  outside of hypothesis testing and confidence interval (perhaps
+  regression?)
 \item
   Finally, we assumed that the response variable is not itself affected
   by other variables that we have not included in our statistical
