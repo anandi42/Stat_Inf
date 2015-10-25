@@ -158,9 +158,9 @@ Group & Means & Variances & Counts \\
   \hline
 OJ & 20.663 & 43.633 &   30 \\ 
   VC & 16.963 & 68.327 &   30 \\ 
-  0.5 & 10.605 & 10.605 &   20 \\ 
-  1 & 19.735 & 19.735 &   20 \\ 
-  2 & 26.100 & 26.100 &   20 \\ 
+  0.5 & 10.605 & 20.248 &   20 \\ 
+  1 & 19.735 & 19.496 &   20 \\ 
+  2 & 26.100 & 14.244 &   20 \\ 
    \hline
 \end{tabular}
 \end{table}
@@ -238,38 +238,41 @@ combinations of groups. But what about power? We have estimates of the
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{meandiff <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{mean}\NormalTok{(g3)-}\KeywordTok{mean}\NormalTok{(g2), }\KeywordTok{mean}\NormalTok{(g3)-}\KeywordTok{mean}\NormalTok{(g1), }\KeywordTok{mean}\NormalTok{(g2-g1))}
-\NormalTok{vars1 <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{var}\NormalTok{(g1), }\KeywordTok{var}\NormalTok{(g2), }\KeywordTok{var}\NormalTok{(g3))}
-\NormalTok{sd1 <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(vars1)}
-\KeywordTok{rbind}\NormalTok{(meandiff, sd1)}
+\NormalTok{d1 <-}\StringTok{ }\FloatTok{3.7} \CommentTok{#smallest possible group difference, from endpoint of CI of 2mg vs 1mg}
+\NormalTok{sd1 <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{19}\NormalTok{) }\CommentTok{#variance for dose of group1}
+\NormalTok{d2 <-}\StringTok{ }\FloatTok{6.4}  \CommentTok{#biggest possible group difference, from endpoint of CI of group 2 vs. 0.5mg}
+\NormalTok{sd2 <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{20}\NormalTok{)}
+\CommentTok{#power test for smallest and largest difference and assoc. sd estimate}
+\KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{n=}\DecValTok{20}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
+             \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\NormalTok{sd1, }\DataTypeTok{delta=}\NormalTok{d1)$power}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##              [,1]      [,2]    [,3]
-## meandiff 6.365000 15.495000 9.13000
-## sd1      4.499763  4.415436 3.77415
+## [1] 0.496575
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{n=}\DecValTok{20}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
-             \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\FloatTok{4.5}\NormalTok{, }\DataTypeTok{delta=}\FloatTok{6.4}\NormalTok{)$power}
+             \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\NormalTok{sd2, }\DataTypeTok{delta=}\NormalTok{d2)$power}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.957448
+## [1] 0.9598137
 \end{verbatim}
 
-At an \(n\) of 20/group, and \(\alpha=0.01\) we have 95\% power to
+At an \(n\) of 20/group, and \(\alpha=0.01\), we have 95\% power to
 correctly reject a null hypothesis assuming a true mean difference of
-\textasciitilde{}6.4 (smallest diff observed). Therefore, we can say
-with some confidence that even with the smallest group difference, the
-differences between dose levels is significantly different. From this,
-we may infer that dose level does have an effect on tooth growth.
-However, the previous t-test showed that the type of supplement does not
-have a net effect.
+\textasciitilde{}6.4. However, for the smaller differences observed in
+our tests, we may be underpowered to correctly reject the null
+hypothesis. Thus, our model may not be able to detect the smaller group
+differences that are present in this data set. From this, we may infer
+that dose level does have an effect on tooth growth and the previous
+t-test showed that the type of supplement does not have a net effect.
+However, we cannot fully test for the entire range of possible group
+differences at an adequate power.
 
 \section{Conclusions}\label{conclusions}
 
@@ -285,8 +288,8 @@ have a net effect.
   supplement \emph{does not} significantly affect tooth growth, higher
   \emph{doses} of Vitamin C \emph{has an effect on tooth growth}.
 \item
-  We have 95\% power to correctly reject the null hypothesis at the
-  smallest group difference observed (\(\Delta = 6.4\))
+  We have 95\% power to correctly reject the null hypothesis at a
+  (\(\Delta = 6.4\))
 \end{enumerate}
 
 \section{Assumptions}\label{assumptions}
