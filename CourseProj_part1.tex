@@ -1,0 +1,254 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={AKN},
+            pdftitle={A Demonstration of the Central Limit Theorem},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{A Demonstration of the Central Limit Theorem}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+\subtitle{Simulation of the sample average of a set of exponentials}
+  \author{AKN}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \date{}
+  \predate{}\postdate{}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+\section{Overview}\label{overview}
+
+In this report, we simulate taking the average, \(\bar X_n\), of a set
+of \(n\) \(iid\) observations from an exponentially distributed variable
+\(X\). We will use the
+\href{https://en.wikipedia.org/wiki/Central_limit_theorem}{Central Limit
+Theorem(CLT)} to calcuate the expected mean \(\mu\) and other parameters
+(variance, sd, 95\% CI) of the distribution of \(\bar X_n\), and then
+compare to the matching observed parameters in the sample average
+distribution. This exercise will demonstrate the CLT by showing that the
+distribution of the sample average is normally distributed, given a
+large number of iterations.
+
+\section{Simulations}\label{simulations}
+
+First, we simulate \(\bar X_n\), the average of a sample of size \(n\)
+taken from a collection of \(iid\). Our \(iid\) will come from a random,
+exponentially distributed variable \(X\) with rate parameter
+\(\lambda\). The exponential distribution has a mean
+\(\mu = \frac{1}{\lambda}\), and standard deviation
+\(s = \frac{1}{\lambda}\). We set \(\lambda = 0.2\), sample size
+\(n = 40\), and perform 1000 iterations. The average of each of the 1000
+samples are calculated and saved to a data frame along with a set of
+1000 random exponentials.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n =}\StringTok{ }\DecValTok{40}  \CommentTok{#sample size}
+\NormalTok{reps =}\StringTok{ }\DecValTok{1000} \CommentTok{#number of simulations}
+\NormalTok{lambda =}\StringTok{ }\FloatTok{0.2}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{936907}\NormalTok{)}
+\CommentTok{#Simulations}
+\NormalTok{samples <-}\StringTok{ }\KeywordTok{replicate}\NormalTok{(reps, }\KeywordTok{rexp}\NormalTok{(n,lambda))}
+\NormalTok{a <-}\StringTok{ }\KeywordTok{rexp}\NormalTok{(reps, lambda); b <-}\StringTok{ }\KeywordTok{apply}\NormalTok{(samples, }\DecValTok{2}\NormalTok{, mean)}
+\NormalTok{data <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{exp =} \NormalTok{a, }\DataTypeTok{means =} \NormalTok{b)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Using CLT to calculate mean and
+variance}\label{using-clt-to-calculate-mean-and-variance}
+
+The exponential distribution has a theoretical mean equal to the inverse
+of rate parameter, \(\frac{1}{\lambda}=5\). We can compare this to the
+mean of the sample averages, \(\bar X_n\). To calculate other parameters
+of the distribution of \(\bar X_n\), we can use the CLT which states
+that \(\bar X\) is approxiametly \(N(\mu, \sigma^2 / n)\), and that:
+
+\[ \text{sample variance} = \frac{\sigma^2}{n} = (\frac{1}{\lambda})^2 * 1/n = \frac{25}{40} =  0.625    
+\text{  and sample sd} = \frac{\sigma}{\sqrt n} = \frac{5}{\sqrt 40} = 0.791 \]
+
+Also, the quantity \(\bar X_n \pm z_{1-\alpha/2}\sigma / \sqrt{n}\) is
+the 95\% interval of \(\mu\). How close are the theorized variables to
+the actual values in the simulated distribution of the sample averages?
+Below, we measure all the parameters of the sanple average and the
+variance, sd and 95\% interval for the sample average distribution. Then
+we compare them directly to the theoretical counterparts, based on the
+formulas above. By showing how the observed values of the simulations
+match with calculations from theory, we demostrate the utility of the
+CLT.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Calculations}
+\NormalTok{mu =}\StringTok{ }\DecValTok{1}\NormalTok{/lambda; s =}\StringTok{ }\NormalTok{(}\DecValTok{1}\NormalTok{/lambda)/}\KeywordTok{sqrt}\NormalTok{(n); sigma =}\StringTok{ }\NormalTok{s^}\DecValTok{2} \CommentTok{#theoretical mu, sigma and s}
+\NormalTok{obmean <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(data$means) }\CommentTok{#observed mu}
+\NormalTok{sd_sample_mean <-}\StringTok{ }\KeywordTok{sd}\NormalTok{(data$means); var_sample_mean <-}\StringTok{ }\KeywordTok{var}\NormalTok{(data$means) }\CommentTok{#obs. s and sigma  }
+\NormalTok{s95CI <-}\StringTok{ }\NormalTok{obmean +}\StringTok{ }\KeywordTok{c}\NormalTok{(-}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)*}\DecValTok{2}\NormalTok{*(sd_sample_mean/}\KeywordTok{sqrt}\NormalTok{(n))}
+\NormalTok{t95CI <-}\StringTok{ }\NormalTok{mu +}\StringTok{ }\KeywordTok{c}\NormalTok{(-}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)*}\FloatTok{1.96}\NormalTok{*(s/}\KeywordTok{sqrt}\NormalTok{(n))}
+\CommentTok{#Table 1}
+\NormalTok{t1 <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{Theoretical=}\KeywordTok{c}\NormalTok{(mu, s, sigma, t95CI[}\DecValTok{1}\NormalTok{], t95CI[}\DecValTok{2}\NormalTok{]), }
+                 \DataTypeTok{Simulated=}\KeywordTok{c}\NormalTok{(obmean, sd_sample_mean, var_sample_mean, s95CI[}\DecValTok{1}\NormalTok{], s95CI[}\DecValTok{2}\NormalTok{]))}
+\KeywordTok{rownames}\NormalTok{(t1) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Mean"}\NormalTok{, }\StringTok{"SD"}\NormalTok{, }\StringTok{"Variance"}\NormalTok{, }\StringTok{"95% CI"}\NormalTok{, }\StringTok{" "}\NormalTok{)}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{xtable}\NormalTok{(t1, }\DataTypeTok{digits=}\DecValTok{4}\NormalTok{, }\DataTypeTok{caption =} \StringTok{"Sample Parameters vs. Theorized Parameters"}\NormalTok{), }\DataTypeTok{comment =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & Theoretical & Simulated \\ 
+  \hline
+Mean & 5.0000 & 5.0154 \\ 
+  SD & 0.7906 & 0.7916 \\ 
+  Variance & 0.6250 & 0.6266 \\ 
+  95\% CI & 4.7550 & 4.7651 \\ 
+    & 5.2450 & 5.2658 \\ 
+   \hline
+\end{tabular}
+\caption{Sample Parameters vs. Theorized Parameters} 
+\end{table}
+
+\section{Distributions}\label{distributions}
+
+We will use our simulated data to test the central limit theorem. By the
+CLT, the simulated sample mean will have a normal distribution, despite
+the shape of the underlying distribution. If one takes enough samples,
+the mean of those samples will be \textbf{normally distributed}.
+\emph{Figure 2} shows density plots, with an overlay of the normal
+distribution centered at \(\mu\). In this plot, we can see that
+\textbf{while the distribution of a large set of exponentials is not
+normal, the distribution of the sample average of exponentials is
+normally distributed}. The right panel provides another way to confirm
+the normality of the distribution of means: the quantile-quantile plot,
+or Q-Q plot.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{CourseProj_part1_files/figure-latex/fig2-1.pdf}
+\caption{Demonstrating that the Distribution of Sample Means is Normal}
+\end{figure}
+
+\pagebreak 
+
+\section{Conclusions}\label{conclusions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  We simulated sampling the mean of an exponential distribution. The
+  simulated mean was 5.015, close to the theoretical mean, 5.\\
+\item
+  The simulated variance, 0.625, was cloe to the variance of the sampled
+  means, 0.627.\\
+\item
+  The 95\% CI of the distribution of sample means, 4.765, 5.266,
+  contains \(\mu\), and lines up with the theoretical interval 4.755,
+  5.245.\\
+\item
+  We began with a population of exponentals that were not normally
+  distributed. Then, we took the means of many samples of size \(n\).
+  The distribution of these sample means \textbf{are normally
+  distributed}. This is the main prediction of the Central Limit
+  Theorem.
+\end{enumerate}
+
+\emph{Note:} Code for graphs not included in this report due to space
+limits, but markdown file can be found
+\href{https://github.com/anandi42/Stat_Inf/blob/master/StatInf_CP1.Rmd}{here}.
+
+\end{document}
