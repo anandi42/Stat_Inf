@@ -71,11 +71,26 @@ print(xtable(t1, digits=4, caption = "Sample Parameters vs. Theorized Parameters
 data2 <- melt(data, value.name = "Value", measure.vars = c("exp", "means"))
 levels(data2$variable) <- c("Exponentials", "Sample Means")
 
-p3 <- ggplot(data2, aes(x=Value)) + geom_histogram(aes(y = ..density..), binwidth=0.5, fill="white", color="blue") + geom_vline(xintercept = mu, color="red") + facet_grid(.~variable) + stat_function(fun = dnorm, args = list(mean=1/lambda, sd = s), n = reps, color="red", lty=5, lwd=1.5) +  theme_bw() + labs(title = "A population of random exponentials\nvs. Sample means of random exponentials") + theme(plot.title = element_text(size = 10), axis.title.x=element_text(size=10), axis.title.y=element_text(size=10)) + coord_cartesian(xlim=c(0,10)) 
+p3 <- ggplot(data2, aes(x=Value)) 
+      + geom_histogram(aes(y = ..density..), binwidth=0.5, fill="white", color="blue") 
+      + geom_vline(xintercept = mu, color="red") 
+      + facet_grid(.~variable) 
+      + stat_function(fun = dnorm, args = list(mean=1/lambda, sd = s), n = reps, color="red", lty=5, lwd=1.5) 
+      +  theme_bw() 
+      + labs(title = "A population of random exponentials\nvs. Sample means of random exponentials") 
+      + theme(plot.title = element_text(size = 10), 
+              axis.title.x=element_text(size=10), 
+              axis.title.y=element_text(size=10)) 
+      + coord_cartesian(xlim=c(0,10)) 
 
 ##Q-Q plot
-p4 <- ggplot(data, aes(sample=b)) + stat_qq(shape=1, color = "blue") + geom_abline(intercept=mu, slope=s, color="red") + labs(title="Q-Q plot") + theme_bw() + theme(plot.title = element_text(size = 12), axis.title.x=element_text(size=10), axis.title.y=element_text(size=10))
-
+p4 <- ggplot(data, aes(sample=b)) 
+      + stat_qq(shape=1, color = "blue") 
+      + geom_abline(intercept=mu, slope=s, color="red") 
+      + labs(title="Q-Q plot") + theme_bw() 
+      + theme(plot.title = element_text(size = 12), 
+              axis.title.x=element_text(size=10), 
+              axis.title.y=element_text(size=10))
 #combine
 grid.arrange(p3,p4, ncol=2, widths=c(2,1))
 ```  
