@@ -240,9 +240,9 @@ combinations of groups. But what about power? We have estimates of the
 \begin{Highlighting}[]
 \NormalTok{d1 <-}\StringTok{ }\FloatTok{3.7} \CommentTok{#smallest possible group difference, from endpoint of CI of 2mg vs 1mg}
 \NormalTok{sd1 <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{19}\NormalTok{) }\CommentTok{#variance for dose of group1}
-\NormalTok{d2 <-}\StringTok{ }\FloatTok{6.4}  \CommentTok{#biggest possible group difference, from endpoint of CI of group 2 vs. 0.5mg}
+\NormalTok{d2 <-}\StringTok{ }\FloatTok{6.4}  \CommentTok{#larger group difference, from endpoint of CI of group 1 vs. 0.5mg}
 \NormalTok{sd2 <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{20}\NormalTok{)}
-\CommentTok{#power test for smallest and largest difference and assoc. sd estimate}
+\CommentTok{#power test for a range of difference and assoc. sd estimate}
 \KeywordTok{power.t.test}\NormalTok{(}\DataTypeTok{n=}\DecValTok{20}\NormalTok{, }\DataTypeTok{type =} \StringTok{"two.sample"}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{, }
              \DataTypeTok{sig.level =} \FloatTok{0.01}\NormalTok{, }\DataTypeTok{sd=}\NormalTok{sd1, }\DataTypeTok{delta=}\NormalTok{d1)$power}
 \end{Highlighting}
@@ -267,12 +267,12 @@ At an \(n\) of 20/group, and \(\alpha=0.01\), we have 95\% power to
 correctly reject a null hypothesis assuming a true mean difference of
 \textasciitilde{}6.4. However, for the smaller differences observed in
 our tests, we may be underpowered to correctly reject the null
-hypothesis. Thus, our model may not be able to detect the smaller group
-differences that are present in this data set. From this, we may infer
-that dose level does have an effect on tooth growth and the previous
-t-test showed that the type of supplement does not have a net effect.
-However, we cannot fully test for the entire range of possible group
-differences at an adequate power.
+hypothesis. Thus, our analysis may not be able to detect the smaller
+group differences that are present in this data set. From this, we may
+infer that dose level does have an effect on tooth growth and the
+previous t-test showed that the type of supplement does not have a net
+effect. However, we cannot fully test for the entire range of possible
+group differences at an adequate power.
 
 \section{Conclusions}\label{conclusions}
 

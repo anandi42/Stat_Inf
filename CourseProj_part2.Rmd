@@ -85,9 +85,9 @@ print(xtable(results1, digits = 3), comment=FALSE,include.rownames=FALSE)
 ```{r power, dependson=c(1,2), cache=TRUE}
 d1 <- 3.7 #smallest possible group difference, from endpoint of CI of 2mg vs 1mg
 sd1 <- sqrt(19) #variance for dose of group1
-d2 <- 6.4  #biggest possible group difference, from endpoint of CI of group 2 vs. 0.5mg
+d2 <- 6.4  #larger group difference, from endpoint of CI of group 1 vs. 0.5mg
 sd2 <- sqrt(20)
-#power test for smallest and largest difference and assoc. sd estimate
+#power test for a range of difference and assoc. sd estimate
 power.t.test(n=20, type = "two.sample", alternative = "two.sided", 
              sig.level = 0.01, sd=sd1, delta=d1)$power
 power.t.test(n=20, type = "two.sample", alternative = "two.sided", 
